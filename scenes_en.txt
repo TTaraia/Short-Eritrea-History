@@ -1,0 +1,47 @@
+# English script. Header:  Title | Date label | map settings.   Narration under it.   Scenes separated by -----
+# map settings:  view=eritrea|horn ; style=ancient|coast|italian|british|federation|province|war|independent ; mark=City,City ; note=analysis
+
+Shared roots | Before the colonial era | view=eritrea; style=ancient; mark=Aksum
+Long before modern borders existed, the ancient Kingdom of Aksum covered parts of both what is now Eritrea and northern Ethiopia. But modern borders and statehood are products of the colonial era, and of decisions made after the Second World War.
+-----
+Italy reaches the Red Sea | 1880s | view=eritrea; style=coast; mark=Assab,Massawa
+Modern Eritrea as a distinct territory begins with Italian colonization. In the late nineteenth century, Italy occupied parts of the Red Sea coast, starting with Assab in the 1880s, and later Massawa.
+-----
+The Colony of Eritrea | 1 January 1890 | view=eritrea; style=italian; mark=Asmara,Massawa,Assab
+On the first of January, 1890, Italy formally established the Colony of Eritrea. It was Italy's first African colony.
+-----
+Ethiopia stays independent | 1896 | view=eritrea; style=italian; mark=Adwa
+Ethiopia, then often called Abyssinia, remained independent. It defeated Italy at the Battle of Adwa in 1896. Italy did occupy Ethiopia from 1936 to 1941, but Ethiopia was never colonized in the same way as Eritrea.
+-----
+British administration | 1941 - 1952 | view=eritrea; style=british; mark=Asmara
+Eritrea stayed under Italian rule until 1941. During the Second World War, British forces defeated the Italians, and Eritrea was placed under British Military Administration from 1941 to 1952.
+-----
+The United Nations decides | December 1950 | view=horn; style=federation
+After the war, the future of the former Italian colony was decided by the United Nations. In December 1950, United Nations General Assembly Resolution 390 V federated Eritrea with Ethiopia, as an autonomous unit under the Ethiopian Crown. The federation took effect in September 1952.
+-----
+Terms of the federation | 1952 | view=horn; style=federation
+Eritrea was meant to keep its own elected assembly, constitution, flag, and control over domestic affairs. Ethiopia controlled defense and foreign policy. This was a compromise: not full independence, and not simple annexation. Many Eritreans had preferred independence, and Cold War interests influenced the outcome.
+-----
+Autonomy restricted | 1952 - 1962 | view=eritrea; style=federation; mark=Asmara
+Between 1952 and 1962, Ethiopian authorities progressively restricted Eritrean autonomy. Political parties and trade unions were suppressed, the Eritrean flag was removed, and Amharic was pushed in place of Tigrinya and Arabic in official use. The name Eritrean Government was also changed.
+-----
+End of the federation | 14 November 1962 | view=horn; style=province
+On the fourteenth of November, 1962, the federation was dissolved and Eritrea was made a province of Ethiopia. Historical accounts widely describe this step as an annexation that violated the terms of the United Nations federation arrangement.
+-----
+Armed struggle | 1961 - 1991 | view=eritrea; style=war
+Armed resistance against Ethiopian rule began in 1961. It deepened after the end of the federation, and grew into a thirty-year war of independence.
+-----
+Eritrean forces take Asmara | May 1991 | view=eritrea; style=war; mark=Asmara
+In May 1991, Eritrean forces, primarily the EPLF, took control of Asmara, as the Ethiopian Derg regime collapsed.
+-----
+The referendum | April 1993 | view=eritrea; style=independent; mark=Asmara
+In April 1993, a United Nations-observed referendum was held. More than ninety-nine percent of voters chose independence, with very high turnout. Eritrea was internationally recognized as a sovereign state, and joined the United Nations that year.
+-----
+Ports and sea access | 1993 onward | view=eritrea; style=independent; mark=Massawa,Assab; note=analysis
+On ports and sea access: Eritrea's modern borders and ports, Massawa and Assab, were shaped by Italian colonial administration. Ethiopia became landlocked after Eritrea's independence in 1993.
+-----
+Sea access today | Today | view=horn; style=independent; mark=Massawa,Assab; note=analysis
+Access to the sea is a practical economic issue. It can be addressed through negotiated commercial agreements, transit rights, or regional cooperation, which are common solutions for landlocked countries worldwide. Claiming permanent ownership of another recognized sovereign state's territory, on historical or need grounds, does not override the international recognition of Eritrean independence in 1993.
+-----
+Key points | Summary | view=eritrea; style=independent
+To recap. Eritrea's modern borders were defined as an Italian colony between 1890 and 1941. The 1952 to 1962 arrangement was a United Nations federation with promised autonomy, not automatic absorption. The change to provincial status in 1962 deepened a struggle that lasted three decades. Independence in 1993 rested on a monitored popular referendum and international recognition. And shared ancient history does not erase the distinct colonial experience, or the later legal steps that created the current states.

@@ -1,4 +1,3 @@
-
 # Eritrea: A Short Modern History - English / Amharic / Tigrinya videos
 
 Outputs (Actions > Build history videos > Artifacts):
