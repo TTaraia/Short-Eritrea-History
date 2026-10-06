@@ -16,3 +16,13 @@ Upload: lang.py mapkit.py music.py scenes.py histmap.py make_history.py, the thr
 Optional: music.mp3 (your own royalty-free piece) replaces the built-in synthesised music.
 
 Amharic and Tigrinya texts, titles and map names are DRAFTS - have native speakers review them before publishing.
+
+## Background music under the whole video
+- If `music.mp3` is in the repo, it plays under the entire video (looped to the video length, e.g. 10:43). Only use music you have the rights to.
+  Commercial recordings such as "Shigey Habuni" by Atewebrhan Segid are copyrighted: YouTube Content ID will claim, mute or block them
+  unless you have the owner's written permission or licence.
+- With no `music.mp3`, an ORIGINAL synthesised instrumental is used (pentatonic mode, 6/8 pulse, plucked-lyre style). It is not a traditional recording.
+- Volume: loud for the first and last 10 seconds, then quiet under the narration. Change the quiet level with BED_LEVEL (default 0.16).
+  BED=none turns the bed off; BED=pachelbel uses the old classical-style loop. Set these in history.yml under the build steps (env:).
+- Free sources for real music: YouTube Audio Library, Pixabay Music, Free Music Archive (check each licence), Musopen (public domain classical).
+- Files changed: music.py, make_history.py, history.yml.
