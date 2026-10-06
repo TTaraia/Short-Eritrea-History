@@ -114,3 +114,23 @@ HIST = {
                    "italian": "ቅኝ ግዛት ኤርትራ ጣልያን (1890-1941)", "british": "ወተሃደራዊ ምምሕዳር ብሪጣንያ (1941-1952)",
                    "federation": "ፈደረሽን ሕቡራት ሃገራት ምስ ኢትዮጵያ (1952-1962)", "province": "ክፍለ ሃገር ኢትዮጵያ (1962-1991)",
                    "war": "ኲናት ናጽነት (1961-1991)", "independent": "ናጻ ኤርትራ (እውቅና 1993)"}}}
+
+# ---------- YouTube upload texts (DRAFT Amharic/Tigrinya) ----------
+HIST["en"].update({
+ "video_title": "Eritrea: A Short Modern History (1890-1993)",
+ "desc": "A calm, date-by-date look at how modern Eritrea came to be: Italian colonization (1890), British administration, the UN federation with Ethiopia (1952), its end in 1962, the war of independence, and the 1993 referendum. Based on standard references.",
+ "sources": "Sources: Britannica; United Nations records (for example, UN General Assembly Resolution 390 (V), 1950).",
+ "disclosure": "Notes: narration uses a synthetic (AI) voice. Maps show modern borders for orientation only. Subtitles are available in English, Amharic and Tigrinya.",
+ "chapters": "Chapters", "chapter_intro": "Introduction", "chapter_outro": "Sources and thanks"})
+HIST["am"].update({
+ "video_title": "ኤርትራ፦ አጭር ዘመናዊ ታሪክ (1890-1993)",
+ "desc": "ዘመናዊቷ ኤርትራ እንዴት እንደተፈጠረች በቀኖችና በተቋማት የሚቃኝ ረጋ ያለ ዘገባ፦ የጣሊያን ቅኝ ግዛት (1890)፣ የብሪታንያ አስተዳደር፣ ከኢትዮጵያ ጋር የተባበሩት መንግሥታት ፌዴሬሽን (1952)፣ በ1962 መፍረሱ፣ የነጻነት ጦርነትና የ1993 ሕዝበ ውሳኔ። በመደበኛ ምንጮች ላይ የተመሠረተ።",
+ "sources": "ምንጮች፦ ብሪታኒካ፤ የተባበሩት መንግሥታት መዛግብት (ለምሳሌ የጠቅላላ ጉባኤ ውሳኔ 390 (V)፣ 1950)።",
+ "disclosure": "ማስታወሻ፦ ይህ ቪዲዮ ሰው ሠራሽ (AI) ድምፅ ይጠቀማል። ካርታዎች ዘመናዊ ድንበሮችን ለማመልከቻ ብቻ ያሳያሉ። የትርጉም ጽሑፎች በእንግሊዝኛ፣ በአማርኛና በትግርኛ ይገኛሉ።",
+ "chapters": "ምዕራፎች", "chapter_intro": "መግቢያ", "chapter_outro": "ምንጮችና ምስጋና"})
+HIST["ti"].update({
+ "video_title": "ኤርትራ፦ ሓጺር ዘመናዊ ታሪኽ (1890-1993)",
+ "desc": "ከመይ ኢላ ዘመናዊት ኤርትራ ከም ዝተፈጥረት ብዕለታትን ትካላትን ዝርኢ ህዱእ ጸብጻብ፦ ቅኝ ግዛት ጣልያን (1890)፣ ምምሕዳር ብሪጣንያ፣ ፈደረሽን ሕቡራት ሃገራት ምስ ኢትዮጵያ (1952)፣ ኣብ 1962 ምፍራሱ፣ ኲናት ናጽነትን ርእይቶ ህዝቢ 1993ን። ኣብ መሰረታዊ ምንጭታት ዝተመስረተ።",
+ "sources": "ምንጭታት፦ ብሪታኒካ፤ ሰነዳት ሕቡራት ሃገራት (ንኣብነት ውሳነ ሓባራዊ ጉባኤ 390 (V)፣ 1950)።",
+ "disclosure": "ምልክታ፦ ካርታታት ዘመናዊ ዶባት ንምርኣይ ጥራይ የርእዩ። ትሕተ-ጽሑፋት ብእንግሊዝኛ፣ ኣምሓርኛን ትግርኛን ይርከቡ።",
+ "chapters": "ምዕራፋት", "chapter_intro": "መእተዊ", "chapter_outro": "ምንጭታትን የቐንየልናን"})
