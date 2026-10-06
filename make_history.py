@@ -124,7 +124,17 @@ def overlay(kind, sc, path, n, total, spec):
             d.rounded_rectangle([40, 96, 40 + w, 142], 12, fill=WARN); T(d, (60, 120), lab, 26, (255, 255, 255))
     img.save(path)
 
+def check_files():
+    """Stops with a clear message if one of the .py files in the repo is an older version than make_history.py."""
+    need = {"scenes": ["parse", "validate"], "lang": ["HIST", "draw_text", "wrap", "width"], "music": ["make_music", "make_eritrean_bed"],
+            "histmap": ["render"], "mapkit": ["load", "tint", "flag_tint", "set_lang", "label"]}
+    old = [f"{mod}.py" for mod, names in need.items() if any(not hasattr(globals()[mod], n) for n in names)]
+    keys = ("video_title", "desc", "sources", "disclosure", "chapters", "chapter_intro", "chapter_outro", "intro_spoken", "styles")
+    if "lang.py" not in old and any(k not in lang.HIST[c] for c in ("en", "am", "ti") for k in keys): old.append("lang.py")
+    if old: sys.exit("Out-of-date file(s) in your repository: " + ", ".join(sorted(set(old))) + ". Re-upload the latest version of every .py file from the project zip.")
+
 if __name__ == "__main__":
+    check_files()
     en = scenes.parse("scenes_en.txt")
     scenes.validate(en)
     langs = {"en": en}
