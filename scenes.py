@@ -24,3 +24,16 @@ def parse(path):
         spoken = re.sub(r"([a-z0-9][.!?])([A-Z])", r"\1 \2", " ".join(body.split()))
         out.append({"title": parts[0], "date": parts[1], "spec": parse_spec(parts[2]) if len(parts) > 2 else {}, "spoken": spoken})
     return out
+
+STYLES = {"ancient", "coast", "italian", "british", "federation", "province", "war", "independent"}
+VIEWS = {"eritrea", "horn"}
+CITY_NAMES = {"Asmara", "Massawa", "Assab", "Adwa", "Aksum", "Addis Ababa"}
+
+def validate(en_scenes):
+    """Stops with a clear message on a typo in the English map settings (otherwise a wrong map would be drawn silently)."""
+    for i, s in enumerate(en_scenes, 1):
+        sp = s["spec"]
+        if sp.get("style", "independent") not in STYLES: sys.exit(f"scenes_en.txt scene {i}: unknown style '{sp.get('style')}'. Use one of {sorted(STYLES)}")
+        if sp.get("view", "eritrea") not in VIEWS: sys.exit(f"scenes_en.txt scene {i}: unknown view '{sp.get('view')}'. Use eritrea or horn")
+        bad = [m for m in sp["mark"] if m not in CITY_NAMES]
+        if bad: sys.exit(f"scenes_en.txt scene {i}: unknown mark {bad}. Use {sorted(CITY_NAMES)}")
