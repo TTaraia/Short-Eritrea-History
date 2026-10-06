@@ -10,6 +10,7 @@ V = sys.argv[1] if len(sys.argv) > 1 else "en"
 W, H = 1280, 720
 PANEL, INK, ACC, WARN = (200, 226, 250, 170), (12, 32, 64), (20, 85, 160), (200, 100, 10)
 INTRO_SECONDS = 10
+MIN_SCENE = 10.0      # YouTube chapters need at least 10 s each
 PAUSE = float(os.environ.get("SENTENCE_PAUSE", "0.7")) if V == "am" else 0.0
 T = lang.draw_text
 
@@ -44,17 +45,42 @@ def tts(text, mp3, voice):
     run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", f"{base}_list.txt", "-c:a", "libmp3lame", "-q:a", "4", mp3])
     return timing
 
-def music_wav():
-    if not os.path.exists("music_auto.wav"): music.make_music("music_auto.wav", 15)
-    return "music.mp3" if os.path.exists("music.mp3") else "music_auto.wav"
+_bed = []
+def bed_file():
+    """Background music for the WHOLE video: your music.mp3 if present, else an original Eritrean-style instrumental.
+    Env BED=eritrean (default) | pachelbel | none."""
+    if _bed: return _bed[0]
+    mode = os.environ.get("BED", "eritrean")
+    if os.path.exists("music.mp3"): p = "music.mp3"
+    elif mode == "none": p = None
+    elif mode == "pachelbel":
+        p = "bed_pachelbel.wav"
+        if not os.path.exists(p): music.make_music(p, 60)
+    else:
+        p = "bed_eritrean.wav"
+        if not os.path.exists(p): music.make_eritrean_bed(p, 150)
+    _bed.append(p); return p
 
-def music_clip(out, seconds=INTRO_SECONDS):
-    run(["ffmpeg", "-y", "-loglevel", "error", "-i", music_wav(), "-t", str(seconds), "-af",
+def silence(out, seconds):
+    run(["ffmpeg", "-y", "-loglevel", "error", "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo", "-t", f"{seconds:.2f}", out])
+
+def music_clip(out, seconds=INTRO_SECONDS):      # intro/outro: with a full-length bed these stay silent (the bed plays)
+    if bed_file(): silence(out, seconds); return
+    if not os.path.exists("music_auto.wav"): music.make_music("music_auto.wav", 15)
+    run(["ffmpeg", "-y", "-loglevel", "error", "-i", "music_auto.wav", "-t", str(seconds), "-af",
          f"afade=t=in:d=1,afade=t=out:st={seconds - 2.5}:d=2.5,apad=whole_dur={seconds}", "-ar", "44100", "-ac", "2", out])
 
-def silent_scene(out, seconds):   # captioned scene without a voice: quiet music bed
-    run(["ffmpeg", "-y", "-loglevel", "error", "-stream_loop", "-1", "-i", music_wav(), "-t", f"{seconds:.2f}", "-af",
-         f"volume=0.25,afade=t=in:d=1,afade=t=out:st={max(0, seconds - 1.5):.2f}:d=1.5", "-ar", "44100", "-ac", "2", out])
+def silent_scene(out, seconds):   # captioned scene without a voice
+    silence(out, seconds)
+
+def add_bed(video_in, video_out, total):
+    """Mixes the bed under the narration: loud in the first/last 10 s, quiet (BED_LEVEL, default 0.16) under the voice."""
+    lvl = float(os.environ.get("BED_LEVEL", "0.16"))
+    env = f"{lvl}+{0.9 - lvl:.3f}*clip((10-t)/2,0,1)+{0.9 - lvl:.3f}*clip((t-({total:.2f}-12))/2,0,1)"
+    fc = (f"[1:a]volume='{env}':eval=frame,afade=t=in:d=1.5,afade=t=out:st={total - 4:.2f}:d=4,atrim=0:{total:.2f}[bed];"
+          f"[0:a][bed]amix=inputs=2:duration=first:dropout_transition=0:normalize=0[a]")
+    run(["ffmpeg", "-y", "-loglevel", "error", "-i", video_in, "-stream_loop", "-1", "-i", bed_file(), "-filter_complex", fc,
+         "-map", "0:v", "-map", "[a]", "-c:v", "copy", "-c:a", "aac", "-b:a", "192k", "-t", f"{total:.2f}", video_out])
 
 def own_recording(n):
     f = glob.glob(f"audio_{V}/{n:02d}.*"); return f[0] if f else None
@@ -100,6 +126,7 @@ def overlay(kind, sc, path, n, total, spec):
 
 if __name__ == "__main__":
     en = scenes.parse("scenes_en.txt")
+    scenes.validate(en)
     langs = {"en": en}
     for c in ("am", "ti"):
         if os.path.exists(f"scenes_{c}.txt"):
@@ -122,7 +149,8 @@ if __name__ == "__main__":
             elif male is None: silent_scene(out.replace(".mp3", ".m4a"), estimate_seconds(text)); out = out.replace(".mp3", ".m4a")
             else: timings[k] = tts(text, out, female if (role == "scene" and idx % 2 == 0) else male)
         audio.append(out)
-    durs = [dur(a) + (0.8 if it[0] == "voice" else 0) for a, it in zip(audio, items)]
+    adur = [dur(a) for a in audio]
+    durs = [max(ad + (0.8 if it[0] == "voice" else 0), MIN_SCENE if it[1] == "scene" else 0) for ad, it in zip(adur, items)]
     total = len(scs); parts, starts, cum = [], [], 0.0
     for k, ((kind, role, idx), a, D) in enumerate(zip(items, audio, durs)):
         spec = en[idx]["spec"] if role == "scene" else {"view": "horn", "style": "independent"}
@@ -136,13 +164,25 @@ if __name__ == "__main__":
              "-r", "25", "-c:a", "aac", "-ar", "44100", "-ac", "2", "-t", f"{D:.2f}", f"{V}_s{k}.mp4"])
         parts.append(f"{V}_s{k}.mp4"); starts.append(cum); cum += D
     open(f"{V}_list.txt", "w").write("".join(f"file '{p}'\n" for p in parts))
-    run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", f"{V}_list.txt", "-c", "copy", f"history_{V}.mp4"])
+    run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", f"{V}_list.txt", "-c", "copy", f"history_{V}_nobed.mp4"])
+    if bed_file(): add_bed(f"history_{V}_nobed.mp4", f"history_{V}.mp4", cum)
+    else: os.replace(f"history_{V}_nobed.mp4", f"history_{V}.mp4")
     for c, cs in langs.items():
         spans = []
         for k, (kind, role, idx) in enumerate(items):
             if kind != "voice": continue
             ch = lang.HIST[c]
             if c == V and timings.get(k): spans += [(starts[k] + a_, starts[k] + b_, t_) for t_, a_, b_ in timings[k]]
-            else: spans.append((starts[k], starts[k] + durs[k] - 0.8, ch["intro_spoken"] if role == "intro" else (ch["outro_spoken"] if role == "outro" else cs[idx]["spoken"])))
+            else: spans.append((starts[k], starts[k] + adur[k], ch["intro_spoken"] if role == "intro" else (ch["outro_spoken"] if role == "outro" else cs[idx]["spoken"])))
         write_srt(f"history_{V}.{c}.srt", spans)
+    # ---- YouTube extras: chapters + description + thumbnail ----
+    def clock(t): s = int(t); return f"{s//3600}:{s//60%60:02}:{s%60:02}" if s >= 3600 else f"{s//60}:{s%60:02}"
+    chap = [(0.0, h["chapter_intro"])]
+    for k, (kind, role, idx) in enumerate(items):
+        if kind == "voice" and role == "scene": chap.append((starts[k], scs[idx]["title"]))
+        if kind == "voice" and role == "outro": chap.append((starts[k], h["chapter_outro"]))
+    text = "\n\n".join([h["video_title"], h["desc"], h["chapters"] + ":\n" + "\n".join(f"{clock(t)} {n}" for t, n in chap), h["sources"], h["disclosure"]])
+    open(f"history_{V}.description.txt", "w", encoding="utf-8").write(text + "\n")
+    base = Image.open(f"{V}_m1.png").convert("RGB").resize((W, H)); ov = Image.open(f"{V}_o1.png"); base.paste(ov, (0, 0), ov)
+    base.save(f"history_{V}_thumbnail.png")
     print(f"Built history_{V}.mp4 ({cum/60:.1f} min) + subtitles: {', '.join(langs)}")
